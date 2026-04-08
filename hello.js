@@ -1,5 +1,6 @@
-function main(){
-    a=10;
-    b=11;
-    c=a+b;
+function kmain(){
+    a='hello world...';
+    
+    print(a)
 }
+kmain();

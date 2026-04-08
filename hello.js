@@ -1,5 +1,5 @@
 function kmain(){
-    a='hello world...';
+    let a='hello world...';
     
     print(a)
 }

@@ -1,2 +1,1 @@
-# jsir
-JavaScript into c code
+templete of natural language interpreter

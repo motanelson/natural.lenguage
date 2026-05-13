@@ -1,5 +1,16 @@
+// game.java
+
 import java.io.FileWriter;
- public class game{   
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class game extends JFrame {
+
+    static String source = "";
     private int score=0;
     private int fire=0;
     private int live=0;
@@ -16,15 +27,21 @@ import java.io.FileWriter;
     private boolean appends=false;
     private int tsleep=100;
     private String files="log.txt";
+    //private int tsleep=100;
+
+    
+    Timer timer;
+
     void debugs(String c){
        if (!appends)System.out.println(files);
        try 
            (FileWriter f1=new FileWriter(files,appends)){
            f1.write(c+"\n");
-           Thread.sleep(tsleep);
+           ;//Thread.sleep(tsleep);
        }catch (Exception e){}
        appends=true;
     }
+
     void checkgameover(){
         //put you code here
         debugs("checkgameover\n\n");
@@ -79,10 +96,24 @@ import java.io.FileWriter;
         debugs("drawmain");
     }
     
-    void mainloop(){
-        //put you code here
-        debugs("mainloop");
-        while(true){
+
+    public game() {
+
+        setTitle("Mini Game Engine");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+
+        DrawingCanvas canvas = new DrawingCanvas();
+        add(canvas);
+
+        parseGame();
+
+        // ⏱️ loop do jogo (1 segundo)
+        
+        TimerTask task = new TimerTask() {
+        public void run() {
             drawmain();
             handlenemy();
             drawenemys();
@@ -92,26 +123,40 @@ import java.io.FileWriter;
             handlescore();
             refreshscreen();
             checkgameover();
-            if (ends)break;
-        }
+
+            repaint();}
+        };
+        
+        Timer timer = new Timer("Timer");
+        long delay = 1000L;
+        long period = 1000L;
+        timer.scheduleAtFixedRate(task, delay, period);
+    }
+
+    void parseGame() {
         
     }
-    
-    void setuploop(){
-        //put you code here
-        debugs("setuploop");
-        while(true){
-           mainloop();
-           if (ends)break;
-        }
-        
-        
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new game().setVisible(true);
+        });
     }
-    public void main(String[] arg){
-        //put you code here
-        debugs("main");
-        setuploop();
-    
-        
+
+    // ==========================
+    // Canvas
+    // ==========================
+    class DrawingCanvas extends JPanel {
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            // limpar ecrã
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
+
+           
+        }
     }
 }

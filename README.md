@@ -1,2 +1,2 @@
-templete games to build basic games stuctur to a log file debug
+version 5 of application builder python
 
